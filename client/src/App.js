@@ -6,7 +6,6 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import { AuthUserProvider } from './contexts/authUserContext'; 
 import ProtectedRoute from './components/routingProtection/ProtectedRoute';
 import UnprotectedRoute from './components/routingProtection/UnProtectedRoute';
-
 const router = createBrowserRouter(
   [
     {
@@ -26,7 +25,7 @@ const router = createBrowserRouter(
         <Home/>
       </ProtectedRoute>
       )
-    },
+    }
   ]
 );
 

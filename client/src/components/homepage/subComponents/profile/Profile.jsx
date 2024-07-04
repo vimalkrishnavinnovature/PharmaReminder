@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import ProfileIcon from '../../../resources/home/profileIcon.png'
-import CloseIcon from '../../../resources/home/closeIcon.png'
+import ProfileIcon from '../../../../resources/home/profileIcon.png'
+import CloseIcon from '../../../../resources/home/closeIcon.png'
 import {
     MDBRow,
     MDBCol,

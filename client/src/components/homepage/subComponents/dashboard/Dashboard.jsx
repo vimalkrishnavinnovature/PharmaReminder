@@ -10,7 +10,7 @@ import {
   MDBCardText,
 } from "mdb-react-ui-kit";
 
-const ShowDetails = () => {
+const Dashboard = () => {
   const [patientDetails, setPatientDetails] = useState([]);
 
 //   useEffect(() => {
@@ -64,4 +64,4 @@ const ShowDetails = () => {
   );
 };
 
-export default ShowDetails;
+export default Dashboard;

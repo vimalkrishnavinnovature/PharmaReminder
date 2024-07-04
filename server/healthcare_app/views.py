@@ -7,7 +7,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
     
-#add guardian to database
 @login_required
 @csrf_exempt
 def add_guardian(request):
@@ -16,7 +15,7 @@ def add_guardian(request):
         guardian_data = json.loads(request.body)
         
         guardian, created = Guardian.objects.get_or_create(
-            Email=user,
+            UserID=user,
             defaults={
                 'FirstName': guardian_data.get('FirstName'),  
                 'LastName': guardian_data.get('LastName'),  
@@ -33,19 +32,15 @@ def add_guardian(request):
 
     except Exception as e:
         return JsonResponse({'message': f'An error occurred: {str(e)}'}, status=500)
-    
-#Update Guardian
+
 @login_required
 @csrf_exempt
 def update_guardian(request):
     try:
         user = request.user
         guardian_data = json.loads(request.body)
-        
-        # Directly fetch the guardian associated with the logged-in user
-        guardian = Guardian.objects.get(Email=user)
-        
-        # Update the guardian's details
+        guardian = Guardian.objects.get(UserID=user)
+
         guardian.FirstName = guardian_data.get('FirstName', guardian.FirstName)
         guardian.LastName = guardian_data.get('LastName', guardian.LastName)
         guardian.PhoneNumber = guardian_data.get('PhoneNumber', guardian.PhoneNumber)
@@ -60,7 +55,6 @@ def update_guardian(request):
     except Exception as e:
         return JsonResponse({'message': f'An error occurred: {str(e)}'}, status=500)
 
-#View Guardian details
 @csrf_exempt
 @login_required
 def view_guardian(request):
@@ -73,7 +67,7 @@ def view_guardian(request):
             'GuardianID': guardian.GuardianID,
             'FirstName': guardian.FirstName,
             'LastName': guardian.LastName,
-            'Email': guardian.Email.email,
+            'Email': guardian.UserID.email,
             'PhoneNumber': guardian.PhoneNumber,
             'Address': guardian.Address,
             'RelationshipToPatient': guardian.RelationshipToPatient

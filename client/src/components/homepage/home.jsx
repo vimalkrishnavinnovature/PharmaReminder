@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './home.css';
 import axios from 'axios';
 import { useAuth } from '../../contexts/authUserContext';
-import Profile from './subComponents/profile';
+import Profile from './subComponents/profile/Profile';
 import dropdown from '../../resources/home/dropdownIcon.png';
 import upIcon from '../../resources/home/upIcon.png';
 import navigationIcon from '../../resources/home/navigationIcon.png';
 import profileIcon from '../../resources/home/profileIcon.png';
-import AddDetails from './subComponents/addDetails';
-import ShowDetails from './subComponents/showDetails';
+import PatientDetails from './subComponents/patientDetails/PatientDetails';
+import Dashboard from './subComponents/dashboard/Dashboard';
 import {
   MDBBtn,
   MDBCollapse,
@@ -115,7 +115,7 @@ export default function Home() {
             <MDBCollapse navbar open={openNav}>
               <MDBNavbarNav>
                 <MDBNavbarItem>
-                  <MDBNavbarLink href='#' onClick={() => setNavOption(1)}>Reports</MDBNavbarLink>
+                  <MDBNavbarLink href='#' onClick={() => setNavOption(1)}>Dashboard</MDBNavbarLink>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <MDBNavbarLink href='#' onClick={() => setNavOption(2)}>Patient Details</MDBNavbarLink>
@@ -124,7 +124,7 @@ export default function Home() {
             </MDBCollapse>
           </MDBContainer>
         </MDBNavbar>
-        {navOption === 1 ? <ShowDetails /> : <AddDetails />}
+        {navOption === 1 ? <Dashboard /> : <PatientDetails />}
       </MDBContainer>
       {showProfile && <Profile setShowProfile={setShowProfile} guardianData={guardianDetails} />}
     </div>
