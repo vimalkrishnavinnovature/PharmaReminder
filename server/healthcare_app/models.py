@@ -22,7 +22,7 @@ class Patient(models.Model):
     DateOfBirth = models.DateField()
     Gender = models.CharField(max_length=10)
     PhoneNumber = models.CharField(max_length=20)
-    BloodType = models.CharField(max_length=3)  
+    BloodType = models.CharField(max_length=5) 
 
     def __str__(self):
         return self.Name
@@ -50,3 +50,5 @@ class Medication(models.Model):
 
     def __str__(self):
         return self.MedicationName
+    
+    

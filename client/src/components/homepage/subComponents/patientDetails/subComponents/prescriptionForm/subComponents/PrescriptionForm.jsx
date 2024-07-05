@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBBtn,MDBContainer } from 'mdb-react-ui-kit';
+import React, { useState,useEffect } from 'react';
+import { MDBRow, MDBCol, MDBInput, MDBBtn, MDBContainer } from 'mdb-react-ui-kit';
 import MedicationForm from './MedicationForm'; // Update the import path as necessary
-//Prescription child component
-const PrescriptionForm = ({ prescription,index,savePrescriptionAtIndex }) => {
-    const [doctorName, setDoctorName] = useState(prescription.doctorName);
-    const [condition, setCondition] = useState(prescription.condition);
-    const [medications, setMedications] = useState(prescription.medications);
+
+const PrescriptionForm = ({ prescription, index, savePrescriptionAtIndex }) => {
+    const [DoctorName, setDoctorName] = useState(prescription.DoctorName);
+    const [Condition, setCondition] = useState(prescription.Condition);
+    const [Medications, setMedications] = useState(prescription.Medications || []);
     const [selectedMedication, setSelectedMedication] = useState(0);
     const [isMedicationExpanded, setIsMedicationExpanded] = useState(true);
-    //Implement this function to handle changes in this current prescription form
+
+    useEffect(() => {
+        setDoctorName(prescription.DoctorName);
+        setCondition(prescription.Condition);
+        setMedications(prescription.Medications || []);
+        console.log("Inside Prescription Form\n: ", prescription);
+    },[prescription]);
+
     const handlePrescriptionChange = (e) => {
         const { name, value } = e.target;
-        if (name === "doctorName") {
+        if (name === "DoctorName") {
             setDoctorName(value);
-        } else if (name === "condition") {
+        } else if (name === "Condition") {
             setCondition(value);
         }
     };
@@ -21,87 +28,77 @@ const PrescriptionForm = ({ prescription,index,savePrescriptionAtIndex }) => {
     const handleSavePrescription = (e) => {
         e.preventDefault();
         savePrescriptionAtIndex(index, {
-            condition,
-            doctorName,
-            medications
+            Condition,
+            DoctorName,
+            Medications
         });
     }
 
-
-    //Medication Specific Functions
     const expandMedication = (index) => {
         setSelectedMedication(index);
         setIsMedicationExpanded(true);
     }
 
-    //Implement this function to update the medication data at a specific index
     const saveMedicationAtIndex = (index, medication) => {
-        setMedications(medications.map((item, i) => {
+        setMedications(Medications.map((item, i) => {
             if (i === index) {
-                return medication; // Replace the current medication with the new one
+                return medication;
             }
-            return item; // Return the item unchanged
+            return item;
         }));
         setIsMedicationExpanded(false);
-
     };
 
-
-    //Implement this function to add a new medication to this current prescription form
     const handleAddMedication = (e) => {
         e.preventDefault();
-
-        // Check if the last medication in the list is filled out
-        const lastMedication = medications[medications.length - 1];
+        const lastMedication = Medications[Medications.length - 1];
         const isLastMedicationFilled = lastMedication && Object.values(lastMedication).every(value => value.trim() !== '');
 
-        if (isLastMedicationFilled || medications.length === 0) {
+        if (isLastMedicationFilled || Medications.length === 0) {
             console.log('Adding new medication');
-            setMedications([...medications, {
-                medicationName: '',
-                label: '',
-                dosage: '',
-                notificationTime: '00:00',
-                frequency: '',
-                startDate: '',
-                endDate: ''
+            setMedications([...Medications, {
+                MedicationName: '',
+                Label: '',
+                Dosage: '',
+                NotificationTime: '00:00',
+                Frequency: '',
+                StartDate: '',
+                EndDate: ''
             }]);
-            // Set the newly added medication as selected and expanded
-            setSelectedMedication(medications.length);
+            setSelectedMedication(Medications.length);
             setIsMedicationExpanded(true);
         } else {
-            alert('Please fill out the last medication before adding a new one.'); console.log('Please fill out the last medication before adding a new one.');
+            alert('Please fill out the last medication before adding a new one.');
+            console.log('Please fill out the last medication before adding a new one.');
         }
     };
 
-
     return (
-        <MDBContainer  className='mt-3 prescription-container'>
+        <MDBContainer className='mt-3 prescription-container'>
             <MDBRow className="mb-3 mt-3">
                 <MDBCol>
-                    <MDBInput label="Condition" type="text" name="condition" value={condition} onChange={handlePrescriptionChange} required />
+                    <MDBInput label="Condition" type="text" name="Condition" value={Condition} onChange={handlePrescriptionChange} required />
                 </MDBCol>
             </MDBRow>
             <MDBRow className='mb-3'>
                 <MDBCol>
-                    <MDBInput label="Doctor Name" type="text" name="doctorName" value={doctorName} onChange={handlePrescriptionChange} required />
+                    <MDBInput label="Doctor Name" type="text" name="DoctorName" value={DoctorName} onChange={handlePrescriptionChange} required />
                 </MDBCol>
             </MDBRow>
 
-            {medications.map((medication, index) => (
+            {Medications.map((medication, index) => (
                 index === selectedMedication && isMedicationExpanded ? <MedicationForm key={index} medication={medication} index={index} saveMedicationAtIndex={saveMedicationAtIndex} /> :
-                    //provide the medication name which when clicked expands the medication form
                     <MDBRow key={index} className='mb-3'>
                         <MDBCol>
                             <span onClick={() => expandMedication(index)}>
-                                {medication.medicationName ? medication.medicationName : 'No Medication'} →
+                                {medication.MedicationName ? medication.MedicationName : 'No Medication'} →
                             </span>
                         </MDBCol>
                     </MDBRow>
             ))}
             <MDBRow>
                 <MDBCol className='d-flex justify-content-end'>
-                    <MDBBtn className='mb-3' size='sm' color='teritiary' onClick={(e) => handleAddMedication(e)}>Add Medication</MDBBtn>
+                    <MDBBtn className='mb-3' size='sm' color='teritiary' onClick={handleAddMedication}>Add Medication</MDBBtn>
                 </MDBCol>
             </MDBRow>
             <MDBRow className="mb-3 text-center">
@@ -110,8 +107,6 @@ const PrescriptionForm = ({ prescription,index,savePrescriptionAtIndex }) => {
                 </MDBCol>
             </MDBRow>
         </MDBContainer>
-
-
     );
 };
 

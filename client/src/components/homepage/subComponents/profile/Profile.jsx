@@ -36,9 +36,49 @@ const Profile = ({ setShowProfile, guardianData = null }) => {
     const validateForm = () => {
         let errors = {};
         let formIsValid = true;
-
-        // Add validations here as needed
-
+    
+        // Validate First Name
+        if (!firstName.trim()) {
+            errors.firstName = "First Name is required";
+            formIsValid = false;
+        }
+    
+        // Validate Last Name
+        if (!lastName.trim()) {
+            errors.lastName = "Last Name is required";
+            formIsValid = false;
+        }
+    
+        // Validate Email
+        if (!email) {
+            errors.email = "Email is required";
+            formIsValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = "Email is invalid";
+            formIsValid = false;
+        }
+    
+        // Validate Phone Number
+        if (!phoneNumber.trim()) {
+            errors.phoneNumber = "Phone Number is required";
+            formIsValid = false;
+        } else if (!/^\d{10}$/.test(phoneNumber)) {
+            errors.phoneNumber = "Phone Number is invalid, must be 10 digits";
+            formIsValid = false;
+        }
+    
+        // Validate Address
+        if (!address.trim()) {
+            errors.address = "Address is required";
+            formIsValid = false;
+        }
+    
+        // Validate Relationship to Patient
+        if (!relationshipToPatient.trim()) {
+            errors.relationshipToPatient = "Relationship to Patient is required";
+            formIsValid = false;
+        }
+    
         setError(errors);
         return formIsValid;
     };

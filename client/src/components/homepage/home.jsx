@@ -61,9 +61,7 @@ export default function Home() {
     };
     fetchGuardianId();
   }, [showProfile]);
-  useEffect(() => {
-    console.log(guardianDetails);
-  }, [guardianDetails]);
+
 
 
   const handleLogout = async (e) => {
